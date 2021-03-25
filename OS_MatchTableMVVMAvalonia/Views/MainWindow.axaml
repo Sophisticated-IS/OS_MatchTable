@@ -1,0 +1,78 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:OS_MatchTableMVVMAvalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignWidth="800"
+        d:DesignHeight="450"
+        x:Class="OS_MatchTableMVVMAvalonia.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="OS_MatchTableMVVMAvalonia">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    
+    <Window.Styles>
+        <Style Selector="Label.h1">
+            <Setter Property="FontSize" Value="25"/>
+        </Style>
+    </Window.Styles>
+    
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Label Classes="h1">1</Label>
+            <Separator Width="10" />
+            <Label Classes="h1">:</Label>
+            <Separator Width="10" />
+            <Label Classes="h1">0</Label>
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                   >
+            <Label Classes="h1">Rogers</Label>
+            <Separator Width="10" />
+            <Label Classes="h1">VS</Label>
+            <Separator Width="10" />
+            <Label Classes="h1">Bullets</Label>
+        </StackPanel>
+
+
+        <Grid Grid.Row="2"
+              RowDefinitions="Auto,*"
+              Margin="0,10,0,0">
+
+            <Border Grid.Row="0"
+                    BorderThickness="1"
+                    Background="#D3D3D3"
+                    BorderBrush="Black"
+                    CornerRadius="3"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                <TextBlock HorizontalAlignment="Center"> Main Events</TextBlock>
+            </Border>
+            
+            <ListBox Grid.Row="1">
+                <ListBox.DataTemplates>
+                    <DataTemplate>
+                        <Border CornerRadius="6"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                            <TextBlock />
+                        </Border>
+                    </DataTemplate>
+                </ListBox.DataTemplates>
+            </ListBox>
+        </Grid>
+
+    </Grid>
+
+</Window>

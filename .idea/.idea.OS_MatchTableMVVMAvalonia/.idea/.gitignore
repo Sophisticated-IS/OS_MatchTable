@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/.idea.OS_MatchTableMVVMAvalonia.iml
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+# Datasource local storage ignored files
+/../../../../../../../../:\Users\Sova IS\RiderProjects\OS_MatchTableMVVMAvalonia\.idea\.idea.OS_MatchTableMVVMAvalonia\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
