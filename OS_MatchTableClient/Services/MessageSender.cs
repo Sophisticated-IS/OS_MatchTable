@@ -18,15 +18,17 @@ namespace OS_MatchTableClient.Services
 
         public async Task SetConnectionWithServer()
         {
-            using var udpClient = new UdpClient("127.0.0.33",12300) {EnableBroadcast = true};
-
+            using var udpClient = new UdpClient();
+            
             var whoIsServerMessage = new WhoIsServerMessage();
             var sendingMessageBytes = MessageConverter.PackMessage(whoIsServerMessage);
 
             bool isServerFound = false;
             while (!isServerFound)
             {
-                await udpClient.SendAsync(sendingMessageBytes, sendingMessageBytes.Length);
+                const int port = 12300;
+                var broadcastIpEndPoint = new IPEndPoint(IPAddress.Broadcast, port);
+                await udpClient.SendAsync(sendingMessageBytes,sendingMessageBytes.Length,broadcastIpEndPoint);
 
                 for (int i = 0; i < 2; i++)
                 {

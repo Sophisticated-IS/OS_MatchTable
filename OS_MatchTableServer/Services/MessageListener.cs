@@ -24,22 +24,21 @@ namespace OS_MatchTableServer.Services
         
         private async void RunUdpClientService(object? state)
         {
-            using var udpSocket =
-                new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp) {EnableBroadcast = true};
-            const string ip = "127.0.0.33";
+            var udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            
             const int port = 12300;
-            EndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+            EndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, port);
             udpSocket.Bind(ipEndPoint);
 
             while (true)
             {
                 var fullData = new List<byte>(128);
-                EndPoint clientIpEndPoint = null!;
+                EndPoint clientIpEndPoint = new IPEndPoint(IPAddress.None, 0);
                 do
                 {
                     var buffer = new byte[128];
 
-                    var bytesAmount = udpSocket.ReceiveFrom(buffer,SocketFlags.None,ref ipEndPoint);
+                    var bytesAmount = udpSocket.ReceiveFrom(buffer,SocketFlags.None,ref clientIpEndPoint);
                     var receivedBytes = buffer.Take(bytesAmount);
                     fullData.AddRange(receivedBytes);
                 } while (udpSocket.Available > 0);
@@ -56,7 +55,7 @@ namespace OS_MatchTableServer.Services
                                 Port = TcpPort
                             };
                             var packedMessage = MessageConverter.PackMessage(serverAddressMessage);
-                            await udpSocket.SendToAsync(packedMessage, SocketFlags.None,ipEndPoint);
+                            await udpSocket.SendToAsync(packedMessage, SocketFlags.None,clientIpEndPoint);
                             break;
                     }
                 }
