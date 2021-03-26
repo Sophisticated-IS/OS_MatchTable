@@ -1,9 +1,9 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using OS_MatchTableMVVMAvalonia.ViewModels;
+using OS_MatchTableClient.ViewModels.Base;
 
-namespace OS_MatchTableMVVMAvalonia
+namespace OS_MatchTableClient
 {
     public class ViewLocator : IDataTemplate
     {

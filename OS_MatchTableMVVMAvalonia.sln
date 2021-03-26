@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OS_MatchTableMVVMAvalonia",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OS_MatchTableServer", "OS_MatchTableServer\OS_MatchTableServer.csproj", "{B781D750-51B6-4702-AC55-A5B559C2CA50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages", "Messages\Messages.csproj", "{76F309D8-6462-4DD0-B18B-531DDA17170F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageUtils", "MessageUtils\MessageUtils.csproj", "{078D8026-87FB-491D-88F1-4E5C7C7C195E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{B781D750-51B6-4702-AC55-A5B559C2CA50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B781D750-51B6-4702-AC55-A5B559C2CA50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B781D750-51B6-4702-AC55-A5B559C2CA50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76F309D8-6462-4DD0-B18B-531DDA17170F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76F309D8-6462-4DD0-B18B-531DDA17170F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76F309D8-6462-4DD0-B18B-531DDA17170F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76F309D8-6462-4DD0-B18B-531DDA17170F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{078D8026-87FB-491D-88F1-4E5C7C7C195E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{078D8026-87FB-491D-88F1-4E5C7C7C195E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{078D8026-87FB-491D-88F1-4E5C7C7C195E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{078D8026-87FB-491D-88F1-4E5C7C7C195E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

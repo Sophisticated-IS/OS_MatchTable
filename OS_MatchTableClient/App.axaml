@@ -1,9 +1,9 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:OS_MatchTableMVVMAvalonia"
-             x:Class="OS_MatchTableMVVMAvalonia.App">
+             xmlns:osMatchTableClient="clr-namespace:OS_MatchTableClient"
+             x:Class="OS_MatchTableClient.App">
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <osMatchTableClient:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>

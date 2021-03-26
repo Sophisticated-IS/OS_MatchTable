@@ -1,17 +1,17 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:OS_MatchTableMVVMAvalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:OS_MatchTableClient.ViewModels"
         mc:Ignorable="d"
         d:DesignWidth="800"
         d:DesignHeight="450"
-        x:Class="OS_MatchTableMVVMAvalonia.Views.MainWindow"
+        x:Class="OS_MatchTableClient.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="OS_MatchTableMVVMAvalonia">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel />
+        <viewModels:MainWindowViewModel />
     </Design.DataContext>
     
     <Window.Styles>
@@ -21,7 +21,7 @@
     </Window.Styles>
     
 
-    <Grid RowDefinitions="Auto,Auto,*">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
 
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
@@ -73,6 +73,19 @@
             </ListBox>
         </Grid>
 
+        <Grid Grid.Row="3">
+            <Border Background="#708090"
+                    Padding="3,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Connection Status:"
+                           Padding="0" />
+                    <TextBlock Text="{Binding ConnectionStatus,Mode=OneWay}"
+                               Foreground="{Binding ConnectionStatusColor,Mode=OneWay}"
+                               VerticalAlignment="Bottom"
+                               FontWeight="Bold" />
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 
 </Window>

@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OS_MatchTableServer.Services;
 
 namespace OS_MatchTableServer.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public string Greeting => "Welcome to Avalonia!";
+        private MessageListener _messageListener;
+
+        public MainWindowViewModel()
+        {
+            _messageListener = new MessageListener();
+        }
+
+       
     }
 }

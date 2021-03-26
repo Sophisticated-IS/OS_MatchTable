@@ -1,9 +1,7 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia;
 using Avalonia.ReactiveUI;
 
-namespace OS_MatchTableMVVMAvalonia
+namespace OS_MatchTableClient
 {
     class Program
     {

@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace OS_MatchTableServer.ViewModels
+namespace OS_MatchTableClient.ViewModels.Base
 {
     public class ViewModelBase : ReactiveObject
     {

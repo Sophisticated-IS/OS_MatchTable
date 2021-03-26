@@ -3,6 +3,7 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <Nullable>enable</Nullable>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <Folder Include="Models\" />
@@ -13,5 +14,8 @@
         <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
         <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\MessageUtils\MessageUtils.csproj" />
     </ItemGroup>
 </Project>

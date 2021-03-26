@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>MessageHandler</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Messages\Messages.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="protobuf-net" Version="3.0.101" />
+    </ItemGroup>
+
+</Project>

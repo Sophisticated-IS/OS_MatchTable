@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using OS_MatchTableMVVMAvalonia.ViewModels;
-using OS_MatchTableMVVMAvalonia.Views;
+using OS_MatchTableClient.ViewModels;
+using OS_MatchTableClient.Views;
 
-namespace OS_MatchTableMVVMAvalonia
+namespace OS_MatchTableClient
 {
     public class App : Application
     {

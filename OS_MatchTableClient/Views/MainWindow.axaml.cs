@@ -1,8 +1,7 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace OS_MatchTableMVVMAvalonia.Views
+namespace OS_MatchTableClient.Views
 {
     public class MainWindow : Window
     {
