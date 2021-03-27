@@ -47,7 +47,8 @@ namespace OS_MatchTableClient.Services
 
             if (_tcpSocket is null) return;
 
-            while (true)
+            var isServerDown = false;
+            while (!isServerDown)
             {
                 var fullMessage = new List<byte>();
                 do
@@ -55,9 +56,10 @@ namespace OS_MatchTableClient.Services
                     var buffer = new byte[1024];
                     var readBytesAmount = await TryReadSocketData(buffer);
                     if (!readBytesAmount.HasValue)
-                    {
+                    { 
                         ServerIsDown.Invoke(null,EventArgs.Empty);
-                        return;
+                        isServerDown = true;
+                        break;
                     }
                     
                     var readBytes = buffer.Take(readBytesAmount.Value);
@@ -72,8 +74,6 @@ namespace OS_MatchTableClient.Services
 
                 
             }
-
-            // ReSharper disable once FunctionNeverReturns
         }
 
         private bool TryUnpackMessage(List<byte> fullMessage,out ServerMessage? serverMessage)
