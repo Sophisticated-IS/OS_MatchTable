@@ -9,7 +9,7 @@
         x:Class="OS_MatchTableClient.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="OS_MatchTableMVVMAvalonia">
-
+    
     <!-- <Design.DataContext> -->
     <!--     <viewModels:MainWindowViewModel /> -->
     <!-- </Design.DataContext> -->
@@ -27,11 +27,11 @@
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Label Classes="h1">1</Label>
+            <Label Classes="h1" Content="{Binding RogersScore,Mode=OneWay}"/>
             <Separator Width="10" />
             <Label Classes="h1">:</Label>
             <Separator Width="10" />
-            <Label Classes="h1">0</Label>
+            <Label Classes="h1" Content="{Binding BulletsScore,Mode=OneWay}"/>
         </StackPanel>
 
 
@@ -67,16 +67,16 @@
                 <TextBlock HorizontalAlignment="Center"> Main Events</TextBlock>
             </Border>
 
-            <ListBox Grid.Row="1">
-                <ListBox.DataTemplates>
+            <ListBox Grid.Row="1" Items="{Binding MatchEvents,Mode=OneTime}">
+                <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border CornerRadius="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center">
-                            <TextBlock />
+                            <TextBlock  Text="{Binding}"/>
                         </Border>
                     </DataTemplate>
-                </ListBox.DataTemplates>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
 

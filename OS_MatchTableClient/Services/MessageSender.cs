@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using MessageHandler;
 using Messages.ClientMessage;
 using Messages.ServerMessage;
+using Messages.ServerMessage.Base;
 
 namespace OS_MatchTableClient.Services
 {
@@ -15,10 +18,82 @@ namespace OS_MatchTableClient.Services
         private const string Ip = "127.0.0.66";
         private const int Port = 12666;
 
+        public delegate void ServerSendMessageHandler(ServerMessage message);
+        public event ServerSendMessageHandler ServerSendMessage = null!;
+        public event EventHandler ServerIsDown = null!;
+        
+        // ReSharper disable once EmptyConstructor
         public MessageSender()
         {
+            
         }
 
+
+        public async Task StartListeningServer()
+        {
+            async Task<int?> TryReadSocketData(byte[] buffer)
+            {
+                int? readBytesAmount = null;
+                try
+                {
+                    readBytesAmount = await _tcpSocket.ReceiveAsync(buffer, SocketFlags.None);
+                }
+                catch (SocketException)
+                {
+                }
+
+                return readBytesAmount;
+            }
+
+            if (_tcpSocket is null) return;
+
+            while (true)
+            {
+                var fullMessage = new List<byte>();
+                do
+                {
+                    var buffer = new byte[1024];
+                    var readBytesAmount = await TryReadSocketData(buffer);
+                    if (!readBytesAmount.HasValue)
+                    {
+                        ServerIsDown.Invoke(null,EventArgs.Empty);
+                        return;
+                    }
+                    
+                    var readBytes = buffer.Take(readBytesAmount.Value);
+                    fullMessage.AddRange(readBytes);
+                } while (_tcpSocket.Available > 0);
+                var unpackResult =   TryUnpackMessage(fullMessage,out var serverMessage);
+
+                if (unpackResult)
+                {
+                    ServerSendMessage?.Invoke(serverMessage!);
+                }
+
+                
+            }
+
+            // ReSharper disable once FunctionNeverReturns
+        }
+
+        private bool TryUnpackMessage(List<byte> fullMessage,out ServerMessage? serverMessage)
+        {
+            var isSuccess = false;
+            serverMessage = null;
+            try
+            {
+                var unpackedMessage = MessageConverter.UnPackMessage(fullMessage.ToArray());
+                var castedServerMessage = (ServerMessage)unpackedMessage;
+                serverMessage = castedServerMessage;
+                isSuccess = true;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            return isSuccess;
+        }
 
         public async Task<bool> ConnectToServer()
         {
@@ -45,7 +120,6 @@ namespace OS_MatchTableClient.Services
             return connectToServerResult;
         }
 
-        
         public async Task FindServer()
         {
             using var udpClient = new UdpClient();

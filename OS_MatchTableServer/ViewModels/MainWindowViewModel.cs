@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using DynamicData;
+using Messages.ServerMessage;
 using OS_MatchTableServer.Services;
 using ReactiveUI;
 
@@ -53,9 +54,14 @@ namespace OS_MatchTableServer.ViewModels
             // GoalCommand = ReactiveCommand.Create<string>(Goal);
         }
 
-        public void Goal(string parameter)
+        public async void Goal(string parameter)
         {
-            //todo
+            var goalMessage = new GoalMessage()
+            {
+                Team = SelectedTeam,
+                Player = SelectedPlayer
+            };
+            await _messageListener.SendMessage(goalMessage);
         }
 
         private bool CanGoal(object parameter)

@@ -1,7 +1,9 @@
 ﻿using System;
-
+using System.Collections.ObjectModel;
 using System.Timers;
 using Avalonia.Media;
+using Messages.ServerMessage;
+using Messages.ServerMessage.Base;
 using OS_MatchTableClient.Services;
 using OS_MatchTableClient.ViewModels.Base;
 using ReactiveUI;
@@ -14,13 +16,16 @@ namespace OS_MatchTableClient.ViewModels
         private StatusConnection _connectionStatus;
         private ISolidColorBrush? _connectionStatusColor;
         private readonly MessageSender _messageSender;
-        private Timer _timer;
+        private readonly Timer _timer;
         private TimeSpan _matchTime;
+        private uint _rogersScore;
+        private uint _bulletsScore;
 
         public enum StatusConnection
         {
             Disconnected,
-            Connected
+            Connected,
+            ServerIsDown
         }
 
         public TimeSpan MatchTime
@@ -42,9 +47,23 @@ namespace OS_MatchTableClient.ViewModels
         }
 
 
+        public uint RogersScore
+        {
+            get => _rogersScore;
+            set =>this.RaiseAndSetIfChanged(ref _rogersScore, value);
+        }
+
+        public uint BulletsScore
+        {
+            get => _bulletsScore;
+            set => this.RaiseAndSetIfChanged(ref _bulletsScore,value);
+        }
+
+        public ObservableCollection<string> MatchEvents { get; }
         public MainWindowViewModel()
         {
             _messageSender = new MessageSender();
+            MatchEvents = new ObservableCollection<string>();
             this.WhenAnyValue(vm => vm.ConnectionStatus).Subscribe(_ => UpdateConnectionStatusColor());
             ConnectionStatus = StatusConnection.Disconnected;
             _timer = new Timer
@@ -66,6 +85,7 @@ namespace OS_MatchTableClient.ViewModels
             {
                 StatusConnection.Disconnected => Brushes.Red,
                 StatusConnection.Connected => Brushes.Green,
+                StatusConnection.ServerIsDown => Brushes.Orange,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -79,10 +99,40 @@ namespace OS_MatchTableClient.ViewModels
             if (connectionServerResult)
             {
                 _timer.Start();
+                _messageSender.ServerSendMessage += MessageSenderOnServerSendMessage;
+                _messageSender.ServerIsDown += MessageSenderOnServerIsDown;
+                await _messageSender.StartListeningServer();
             }
             
         }
-        
-        
+
+        private void MessageSenderOnServerIsDown(object? sender, EventArgs e)
+        {
+            ConnectionStatus = StatusConnection.ServerIsDown;
+            _timer?.Stop();
+        }
+
+        private void MessageSenderOnServerSendMessage(ServerMessage message)
+        {
+
+            switch (message)
+            {
+                case GoalMessage goalMessage:
+                    var matchEvent = $"Player: {goalMessage.Player} in Team: {goalMessage.Team} scored a goal! Congratulations!!!";
+                    MatchEvents.Add(matchEvent);
+                    switch (goalMessage.Team)
+                    {
+                        case "Rogers":
+                            BulletsScore++;
+                            break;
+                        case "Bullets":
+                            RogersScore++;
+                            break;
+                    }
+
+                    break;
+                
+            }
+        }
     }
 }
