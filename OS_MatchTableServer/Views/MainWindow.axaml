@@ -3,13 +3,43 @@
         xmlns:vm="using:OS_MatchTableServer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
+        d:DesignWidth="800"
+        d:DesignHeight="450"
         x:Class="OS_MatchTableServer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="OS_MatchTableServer">
+        Title="Match Server">
+    <!-- -->
+    <!-- <Design.DataContext> -->
+    <!--     <vm:MainWindowViewModel/> -->
+    <!-- </Design.DataContext> -->
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Label Content="Server Manage Panel"
+               FontSize="25"
+               FontWeight="Bold"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center" />
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Center">
+            <Label Content="Team:" />
+            <ComboBox Items="{Binding Teams,Mode=OneTime}"
+                      SelectedItem="{Binding SelectedTeam,Mode=TwoWay}" />
+            <Separator Width="20" />
+            <Label Content="Player:" />
+            <ComboBox Items="{Binding Players,Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedPlayer,Mode=TwoWay}" />
+        </StackPanel>
 
+        <Button Margin="0,20,0,0"
+                Grid.Row="2"
+                Content="⚽⚽⚽Goal⚽⚽⚽"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Command="{Binding Goal,Mode=OneTime}"
+                CommandParameter="NoParameter"/>
+
+    </Grid>
 </Window>
