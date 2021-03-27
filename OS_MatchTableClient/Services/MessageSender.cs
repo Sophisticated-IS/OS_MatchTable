@@ -29,7 +29,7 @@ namespace OS_MatchTableClient.Services
         }
 
 
-        public async Task StartListeningServer()
+        public async Task StartListeningServerAsync()
         {
             async Task<int?> TryReadSocketData(byte[] buffer)
             {
@@ -95,7 +95,7 @@ namespace OS_MatchTableClient.Services
             return isSuccess;
         }
 
-        public async Task<bool> ConnectToServer()
+        public async Task<bool> ConnectToServerAsync()
         {
             async Task<bool> TryConnectToServer(Socket socket)
             {
@@ -120,7 +120,7 @@ namespace OS_MatchTableClient.Services
             return connectToServerResult;
         }
 
-        public async Task FindServer()
+        public async Task FindServerAsync()
         {
             using var udpClient = new UdpClient();
 

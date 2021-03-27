@@ -71,7 +71,7 @@ namespace OS_MatchTableClient.ViewModels
                 Interval = TimeSpan.FromSeconds(1).TotalMilliseconds
             };
             _timer.Elapsed += TimerOnElapsed;
-            ConnectToServer();
+            ConnectToServerAsync();
         }
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
@@ -91,17 +91,17 @@ namespace OS_MatchTableClient.ViewModels
         }
         
         
-        private async void ConnectToServer()
+        private async void ConnectToServerAsync()
         {
-            await _messageSender.FindServer();
+            await _messageSender.FindServerAsync();
             ConnectionStatus = StatusConnection.Connected;
-            var connectionServerResult = await _messageSender.ConnectToServer();
+            var connectionServerResult = await _messageSender.ConnectToServerAsync();
             if (connectionServerResult)
             {
                 _timer.Start();
                 _messageSender.ServerSendMessage += MessageSenderOnServerSendMessage;
                 _messageSender.ServerIsDown += MessageSenderOnServerIsDown;
-                await _messageSender.StartListeningServer();
+                await _messageSender.StartListeningServerAsync();
             }
             
         }
