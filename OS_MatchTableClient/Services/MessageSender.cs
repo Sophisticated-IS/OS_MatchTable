@@ -11,15 +11,45 @@ namespace OS_MatchTableClient.Services
     public sealed class MessageSender
     {
         private IPEndPoint? _serverEndPoint;
+        private Socket? _tcpSocket;
+        private const string Ip = "127.0.0.66";
+        private const int Port = 12666;
 
         public MessageSender()
         {
         }
 
-        public async Task SetConnectionWithServer()
+
+        public async Task<bool> ConnectToServer()
+        {
+            async Task<bool> TryConnectToServer(Socket socket)
+            {
+                var result = false;
+                try
+                {
+                    await socket.ConnectAsync(_serverEndPoint ?? throw new InvalidOperationException());
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
+                return result;
+            }
+
+            _tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            var serverIpEndPoint = new IPEndPoint(IPAddress.Parse(Ip), Port);
+            _tcpSocket.Bind(serverIpEndPoint);
+            var connectToServerResult = await TryConnectToServer(_tcpSocket);
+            return connectToServerResult;
+        }
+
+        
+        public async Task FindServer()
         {
             using var udpClient = new UdpClient();
-            
+
             var whoIsServerMessage = new WhoIsServerMessage();
             var sendingMessageBytes = MessageConverter.PackMessage(whoIsServerMessage);
 
@@ -28,7 +58,7 @@ namespace OS_MatchTableClient.Services
             {
                 const int port = 12300;
                 var broadcastIpEndPoint = new IPEndPoint(IPAddress.Broadcast, port);
-                await udpClient.SendAsync(sendingMessageBytes,sendingMessageBytes.Length,broadcastIpEndPoint);
+                await udpClient.SendAsync(sendingMessageBytes, sendingMessageBytes.Length, broadcastIpEndPoint);
 
                 for (int i = 0; i < 2; i++)
                 {
@@ -62,6 +92,12 @@ namespace OS_MatchTableClient.Services
             }
 
             return isServerFound;
+        }
+
+        ~MessageSender()
+        {
+            _tcpSocket?.Close();
+            _tcpSocket?.Dispose();
         }
     }
 }

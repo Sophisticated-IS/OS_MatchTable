@@ -10,16 +10,17 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="OS_MatchTableMVVMAvalonia">
 
-    <Design.DataContext>
-        <viewModels:MainWindowViewModel />
-    </Design.DataContext>
-    
+    <!-- <Design.DataContext> -->
+    <!--     <viewModels:MainWindowViewModel /> -->
+    <!-- </Design.DataContext> -->
+
     <Window.Styles>
         <Style Selector="Label.h1">
-            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontSize"
+                    Value="25" />
         </Style>
     </Window.Styles>
-    
+
 
     <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
 
@@ -34,10 +35,10 @@
         </StackPanel>
 
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal"
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                   >
+                    VerticalAlignment="Center">
             <Label Classes="h1">Rogers</Label>
             <Separator Width="10" />
             <Label Classes="h1">VS</Label>
@@ -45,7 +46,12 @@
             <Label Classes="h1">Bullets</Label>
         </StackPanel>
 
-        <Label Grid.Row="2" Classes="h1" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center">00:00</Label>
+        <Label Grid.Row="2"
+               Classes="h1"
+               Foreground="Gray"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Content="{Binding MatchTime,Mode=OneWay}"/>
 
         <Grid Grid.Row="3"
               RowDefinitions="Auto,*"
@@ -60,7 +66,7 @@
                     VerticalAlignment="Stretch">
                 <TextBlock HorizontalAlignment="Center"> Main Events</TextBlock>
             </Border>
-            
+
             <ListBox Grid.Row="1">
                 <ListBox.DataTemplates>
                     <DataTemplate>
@@ -80,7 +86,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Connection Status:"
                            Padding="0" />
-                    <Separator Width="10"></Separator>
+                    <Separator Width="10" />
                     <TextBlock Text="{Binding ConnectionStatus,Mode=OneWay}"
                                Foreground="{Binding ConnectionStatusColor,Mode=OneWay}"
                                VerticalAlignment="Bottom"
