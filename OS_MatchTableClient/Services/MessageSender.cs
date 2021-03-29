@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using MessageHandler;
@@ -16,8 +17,8 @@ namespace OS_MatchTableClient.Services
         private IPEndPoint? _serverEndPoint;
         private Socket? _tcpSocket;
         private const string Ip = "127.0.0.66";
-        private const int Port = 12666;
-
+        private int _clientPort;
+        private const int ServerPort = 12300;
         public delegate void ServerSendMessageHandler(ServerMessage message);
         public event ServerSendMessageHandler ServerSendMessage = null!;
         public event EventHandler ServerIsDown = null!;
@@ -25,10 +26,30 @@ namespace OS_MatchTableClient.Services
         // ReSharper disable once EmptyConstructor
         public MessageSender()
         {
-            
+            _clientPort = FindAvailablePort();
         }
 
 
+        private int FindAvailablePort()
+        { 
+            const int minPort=49152; 
+            const int maxPort=65535;
+
+            IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            TcpConnectionInformation[] tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
+            var busyPort = tcpConnInfoArray.Select(conn => conn.LocalEndPoint.Port).ToArray();
+            
+            for (var port = minPort; port <= maxPort; port++)
+            {
+                if (!busyPort.Contains(port))
+                {
+                    return port;
+                }
+            }
+
+            throw new ArgumentException("Can't find available Port for Client");
+        }
+        
         public async Task StartListeningServerAsync()
         {
             async Task<int?> TryReadSocketData(byte[] buffer)
@@ -71,8 +92,6 @@ namespace OS_MatchTableClient.Services
                 {
                     ServerSendMessage?.Invoke(serverMessage!);
                 }
-
-                
             }
         }
 
@@ -114,7 +133,7 @@ namespace OS_MatchTableClient.Services
             }
 
             _tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var serverIpEndPoint = new IPEndPoint(IPAddress.Parse(Ip), Port);
+            var serverIpEndPoint = new IPEndPoint(IPAddress.Parse(Ip), _clientPort);
             _tcpSocket.Bind(serverIpEndPoint);
             var connectToServerResult = await TryConnectToServer(_tcpSocket);
             return connectToServerResult;
@@ -128,10 +147,10 @@ namespace OS_MatchTableClient.Services
             var sendingMessageBytes = MessageConverter.PackMessage(whoIsServerMessage);
 
             bool isServerFound = false;
+            
             while (!isServerFound)
             {
-                const int port = 12300;
-                var broadcastIpEndPoint = new IPEndPoint(IPAddress.Broadcast, port);
+                var broadcastIpEndPoint = new IPEndPoint(IPAddress.Broadcast, ServerPort);
                 await udpClient.SendAsync(sendingMessageBytes, sendingMessageBytes.Length, broadcastIpEndPoint);
 
                 for (int i = 0; i < 2; i++)
