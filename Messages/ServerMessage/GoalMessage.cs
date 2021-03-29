@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using System;
+using ProtoBuf;
 
 namespace Messages.ServerMessage
 {
@@ -9,5 +10,7 @@ namespace Messages.ServerMessage
         public string Team { get; set; }
         [ProtoMember(2)]
         public string Player { get; set; }
+        [ProtoMember(3)]
+        public TimeSpan ServerTime { get; set; }
     }
 }

@@ -118,6 +118,7 @@ namespace OS_MatchTableClient.ViewModels
             switch (message)
             {
                 case GoalMessage goalMessage:
+                    _matchTime = goalMessage.ServerTime;
                     var matchEvent = $"Player: {goalMessage.Player} in Team: {goalMessage.Team} scored a goal! Congratulations!!!";
                     MatchEvents.Add(matchEvent);
                     switch (goalMessage.Team)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Reactive;
 using DynamicData;
 using Messages.ServerMessage;
 using OS_MatchTableServer.Services;
@@ -18,6 +18,7 @@ namespace OS_MatchTableServer.ViewModels
         private string[] _players;
         private string _selectedTeam;
         private string _selectedPlayer;
+        private DateTime _startServerDateTime;
 
         public string[] Teams
         {
@@ -51,17 +52,28 @@ namespace OS_MatchTableServer.ViewModels
             _teamPlayers = new List<string[]>(2);
             _messageListener = new MessageListener();
             FillMatchData();
-            // GoalCommand = ReactiveCommand.Create<string>(Goal);
+            _startServerDateTime = DateTime.Now;
         }
 
         public async void Goal(string parameter)
         {
-            var goalMessage = new GoalMessage()
+            var goalTime = DateTime.Now.Subtract(_startServerDateTime);
+            TruncatetimeSpanToSeconds(ref goalTime);
+            var goalMessage = new GoalMessage
             {
                 Team = SelectedTeam,
-                Player = SelectedPlayer
+                Player = SelectedPlayer,
+                ServerTime = goalTime
             };
             await _messageListener.SendMessage(goalMessage);
+        }
+
+        private static void TruncatetimeSpanToSeconds(ref TimeSpan timeSpan)
+        {
+            var time = timeSpan.ToString();
+            var excessTicks = time.Split('.').First();
+            var truncatedTimeSpan = DateTime.ParseExact(excessTicks, "HH:mm:ss", CultureInfo.InvariantCulture).TimeOfDay;
+            timeSpan = truncatedTimeSpan;
         }
 
         private bool CanGoal(object parameter)
