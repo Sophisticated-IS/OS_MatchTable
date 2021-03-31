@@ -9,7 +9,7 @@
         x:Class="OS_MatchTableServer.Views.MainWindow"
         Icon="/Assets/iconmonstr-server-3.ico"
         Title="Евсеенков КМБ СЕРВЕР ТАБЛО"
-        Width="400"
+        Width="450"
         Height="250">
 
     <!-- <Design.DataContext> -->

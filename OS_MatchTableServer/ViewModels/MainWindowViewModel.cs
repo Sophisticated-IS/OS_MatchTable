@@ -103,24 +103,23 @@ namespace OS_MatchTableServer.ViewModels
 
         private void FillMatchData()
         {
-            Teams = new[] {"Rogers", "Bullets"};
+            Teams = new[] {"Команда№1", "Команда№2"};
 
             var rogersTeam = new[]
             {
-                "Roger#1",
-                "Roger#2",
-                "Roger#3",
-                "Roger#4",
-                "Roger#5",
-               
+                "Аршавин#1",
+                "Аршавин#2",
+                "Аршавин#3",
+                "Аршавин#4",
+                "Аршавин#5",
             };
             var bulletsTeam = new[]
             {
-                "Billy#1",
-                "Billy#2",
-                "Billy#3",
-                "Billy#4",
-                "Billy#5",
+                "Мейси#1",
+                "Мейси#2",
+                "Мейси#3",
+                "Мейси#4",
+                "Мейси#5",
             };
             _teamPlayers.Add(rogersTeam);
             _teamPlayers.Add(bulletsTeam);

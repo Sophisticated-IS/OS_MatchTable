@@ -119,15 +119,15 @@ namespace OS_MatchTableClient.ViewModels
             {
                 case GoalMessage goalMessage:
                     _matchTime = goalMessage.ServerTime;
-                    var matchEvent = $"Player: {goalMessage.Player} in Team: {goalMessage.Team} scored a goal! Congratulations!!!";
+                    var matchEvent = $"Игрок с номером {goalMessage.Player} из команды {goalMessage.Team} забивает гол!";
                     MatchEvents.Add(matchEvent);
                     switch (goalMessage.Team)
                     {
-                        case "Rogers":
-                            BulletsScore++;
-                            break;
-                        case "Bullets":
+                        case "Команда№1":
                             RogersScore++;
+                            break;
+                        case "Команда№2":
+                            BulletsScore++;
                             break;
                     }
 
