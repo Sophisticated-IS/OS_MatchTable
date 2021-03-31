@@ -7,39 +7,47 @@
         d:DesignWidth="800"
         d:DesignHeight="450"
         x:Class="OS_MatchTableServer.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Match Server">
-    <!-- -->
+        Icon="/Assets/iconmonstr-server-3.ico"
+        Title="Евсеенков КМБ СЕРВЕР ТАБЛО">
+
     <!-- <Design.DataContext> -->
-    <!--     <vm:MainWindowViewModel/> -->
+    <!--     <vm:MainWindowViewModel /> -->
     <!-- </Design.DataContext> -->
 
-    <Grid RowDefinitions="Auto,Auto,*">
-        <Label Content="Server Manage Panel"
-               FontSize="25"
-               FontWeight="Bold"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center" />
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    Margin="0,20,0,0"
-                    HorizontalAlignment="Center">
-            <Label Content="Team:" />
-            <ComboBox Items="{Binding Teams,Mode=OneTime}"
-                      SelectedItem="{Binding SelectedTeam,Mode=TwoWay}" />
-            <Separator Width="20" />
-            <Label Content="Player:" />
-            <ComboBox Items="{Binding Players,Mode=TwoWay}"
-                      SelectedItem="{Binding SelectedPlayer,Mode=TwoWay}" />
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Left">
+            <Label>Таймер сервера:</Label>
+            <Label Content="{Binding ServerTimer,Mode=OneWay}" />
         </StackPanel>
 
-        <Button Margin="0,20,0,0"
-                Grid.Row="2"
-                Content="⚽⚽⚽Goal⚽⚽⚽"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Command="{Binding Goal,Mode=OneTime}"
-                CommandParameter="NoParameter"/>
 
-    </Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel DockPanel.Dock="Left"
+                        Orientation="Horizontal"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Left">
+                <Label Content="Команда:" />
+                <ComboBox Items="{Binding Teams,Mode=OneTime}"
+                          SelectedItem="{Binding SelectedTeam,Mode=TwoWay}" />
+                <Separator Width="20" />
+                <Label Content="Номер игрока:" />
+                <ComboBox Items="{Binding Players,Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedPlayer,Mode=TwoWay}" />
+            </StackPanel>
+            
+            <Separator Height="25"></Separator>
+            <Button Margin="150,0,0,0"
+                    Content="⚽"
+                    FontSize="70"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Command="{Binding Goal,Mode=OneTime}"
+                    CommandParameter="NoParameter" />
+        </StackPanel>
+        
+    </DockPanel>
+
+
 </Window>

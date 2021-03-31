@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Timers;
 using DynamicData;
 using Messages.ServerMessage;
 using OS_MatchTableServer.Services;
@@ -19,11 +20,19 @@ namespace OS_MatchTableServer.ViewModels
         private string _selectedTeam;
         private string _selectedPlayer;
         private DateTime _startServerDateTime;
+        private Timer _timer;
+        private TimeSpan _serverTimer;
 
         public string[] Teams
         {
             get => _teams;
             set => this.RaiseAndSetIfChanged(ref _teams, value);
+        }
+
+        public TimeSpan ServerTimer
+        {
+            get => _serverTimer;
+            set => this.RaiseAndSetIfChanged(ref _serverTimer, value);
         }
 
         public string[] Players
@@ -51,8 +60,19 @@ namespace OS_MatchTableServer.ViewModels
             this.WhenAnyValue(vm => vm.SelectedTeam).Subscribe(UpdatePlayers);
             _teamPlayers = new List<string[]>(2);
             _messageListener = new MessageListener();
-            FillMatchData();
+            _timer = new Timer()
+            {
+                Interval = TimeSpan.FromSeconds(1).TotalMilliseconds
+            };
+            _timer.Elapsed+= TimerOnElapsed;
+            _timer.Start();
+                FillMatchData();
             _startServerDateTime = DateTime.Now;
+        }
+
+        private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+        {
+            ServerTimer = ServerTimer.Add(TimeSpan.FromSeconds(1));
         }
 
         public async void Goal(string parameter)
@@ -87,31 +107,20 @@ namespace OS_MatchTableServer.ViewModels
 
             var rogersTeam = new[]
             {
-                "Bill(1)",
-                "Roger(2)",
-                "David(3)",
-                "Mary(4)",
-                "Lily(5)",
-                "Bro(6)",
-                "Nice(7)",
-                "Kelvin(8)",
-                "Brown(9)",
-                "Noland(10)",
-                "Bilden(11)",
+                "Roger#1",
+                "Roger#2",
+                "Roger#3",
+                "Roger#4",
+                "Roger#5",
+               
             };
             var bulletsTeam = new[]
             {
-                "Shoun(1)",
-                "Golem(2)",
-                "Holand(3)",
-                "Ferry(4)",
-                "Filiska(5)",
-                "Pipilom(6)",
-                "Kolen(7)",
-                "Nordan(8)",
-                "Duland(9)",
-                "Mortran(10)",
-                "Rick(11)"
+                "Billy#1",
+                "Billy#2",
+                "Billy#3",
+                "Billy#4",
+                "Billy#5",
             };
             _teamPlayers.Add(rogersTeam);
             _teamPlayers.Add(bulletsTeam);
