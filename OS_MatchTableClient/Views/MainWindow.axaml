@@ -8,7 +8,9 @@
         d:DesignHeight="450"
         x:Class="OS_MatchTableClient.Views.MainWindow"
         Icon="/Assets/iconmonstr-customer-8.ico"
-        Title="Евсеенков КМБ СЕРВЕР КЛИЕНТ">
+        Title="Евсеенков КМБ СЕРВЕР КЛИЕНТ"
+        Width="760"
+        Height="500">
     
     <!-- <Design.DataContext> -->
     <!--     <viewModels:MainWindowViewModel /> -->
@@ -25,8 +27,27 @@
     <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
 
         <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center">
+           
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="1" Background="#373737"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+            <Label VerticalAlignment="Center" Foreground="Blue">Противостояние:</Label>
+            <Separator Width="25"></Separator>
+
+            <Label Classes="h1">Команда№1</Label>
+            <Separator Width="10" />
+            <Label Classes="h1">VS</Label>
+            <Separator Width="10" />
+            <Label Classes="h1">Команда№2</Label>
+            <Separator Width="50"></Separator>
+            <Label VerticalAlignment="Center" Foreground="Blue">Счет Матча:</Label>
+            <Separator Width="25"></Separator>
             <Label Classes="h1" Content="{Binding RogersScore,Mode=OneWay}"/>
             <Separator Width="10" />
             <Label Classes="h1">:</Label>
@@ -34,23 +55,11 @@
             <Label Classes="h1" Content="{Binding BulletsScore,Mode=OneWay}"/>
         </StackPanel>
 
-
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <Label Classes="h1">Rogers</Label>
-            <Separator Width="10" />
-            <Label Classes="h1">VS</Label>
-            <Separator Width="10" />
-            <Label Classes="h1">Bullets</Label>
-        </StackPanel>
-
         <Label Grid.Row="2"
                Classes="h1"
-               Foreground="Gray"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
+               Foreground="#FF8C00"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Center" Margin="250,0,0,0"
                Content="{Binding MatchTime,Mode=OneWay}"/>
 
         <Grid Grid.Row="3"
@@ -62,12 +71,12 @@
                     Background="#D3D3D3"
                     BorderBrush="Black"
                     CornerRadius="3"
-                    HorizontalAlignment="Stretch"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Stretch">
-                <TextBlock HorizontalAlignment="Center"> Main Events</TextBlock>
+                <TextBlock HorizontalAlignment="Center" Background="Gray" Width="150"> Описание матча: </TextBlock>
             </Border>
 
-            <ListBox Grid.Row="1" Items="{Binding MatchEvents,Mode=OneTime}">
+            <ListBox Grid.Row="1" Items="{Binding MatchEvents,Mode=OneTime}" HorizontalAlignment="Left" Width="760" Foreground="#CD5C5C">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border CornerRadius="6"
@@ -84,7 +93,7 @@
             <Border Background="#708090"
                     Padding="3,0,0,0">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Connection Status:"
+                    <Label Content="Соединение:"
                            Padding="0" />
                     <Separator Width="10" />
                     <TextBlock Text="{Binding ConnectionStatus,Mode=OneWay}"

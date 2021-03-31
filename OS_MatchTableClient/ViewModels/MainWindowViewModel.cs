@@ -23,9 +23,9 @@ namespace OS_MatchTableClient.ViewModels
 
         public enum StatusConnection
         {
-            Disconnected,
-            Connected,
-            ServerIsDown
+            Разъединено,
+            Соединено,
+            СерверНеОтвечает
         }
 
         public TimeSpan MatchTime
@@ -65,7 +65,7 @@ namespace OS_MatchTableClient.ViewModels
             _messageSender = new MessageSender();
             MatchEvents = new ObservableCollection<string>();
             this.WhenAnyValue(vm => vm.ConnectionStatus).Subscribe(_ => UpdateConnectionStatusColor());
-            ConnectionStatus = StatusConnection.Disconnected;
+            ConnectionStatus = StatusConnection.Разъединено;
             _timer = new Timer
             {
                 Interval = TimeSpan.FromSeconds(1).TotalMilliseconds
@@ -83,9 +83,9 @@ namespace OS_MatchTableClient.ViewModels
         {
             ConnectionStatusColor = ConnectionStatus switch
             {
-                StatusConnection.Disconnected => Brushes.Red,
-                StatusConnection.Connected => Brushes.Green,
-                StatusConnection.ServerIsDown => Brushes.Orange,
+                StatusConnection.Разъединено => Brushes.Red,
+                StatusConnection.Соединено => Brushes.Green,
+                StatusConnection.СерверНеОтвечает => Brushes.Orange,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -94,7 +94,7 @@ namespace OS_MatchTableClient.ViewModels
         private async void ConnectToServerAsync()
         {
             await _messageSender.FindServerAsync();
-            ConnectionStatus = StatusConnection.Connected;
+            ConnectionStatus = StatusConnection.Соединено;
             var connectionServerResult = await _messageSender.ConnectToServerAsync();
             if (connectionServerResult)
             {
@@ -108,7 +108,7 @@ namespace OS_MatchTableClient.ViewModels
 
         private void MessageSenderOnServerIsDown(object? sender, EventArgs e)
         {
-            ConnectionStatus = StatusConnection.ServerIsDown;
+            ConnectionStatus = StatusConnection.СерверНеОтвечает;
             _timer?.Stop();
         }
 
